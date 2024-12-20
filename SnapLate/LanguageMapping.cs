@@ -14,7 +14,7 @@ namespace SnapLate
 
         public static string LangToTessaract(string key)
         {
-            string tessaractShort = "eng";
+            string tessaractShort = string.Empty;
 
             foreach (var item in TessearctLang)
             {
@@ -24,7 +24,7 @@ namespace SnapLate
                 }
             }
 
-            if (tessaractShort == string.Empty)
+            if (string.IsNullOrEmpty(tessaractShort))
             {
                 if(TessaractAlternate.TryGetValue(key, out var alternate))
                 {
@@ -36,6 +36,11 @@ namespace SnapLate
                         }
                     }
                 }
+            }
+
+            if(string.IsNullOrEmpty(tessaractShort))
+            {
+                tessaractShort = "eng";
             }
 
             return tessaractShort;

@@ -89,6 +89,7 @@
                           TextSearch.TextPath="Value" 
                           IsTextSearchEnabled="True" 
                           VerticalContentAlignment="Center"
+                          SelectionChanged="Language_Changed"
                           Style="{StaticResource ComboBox}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>

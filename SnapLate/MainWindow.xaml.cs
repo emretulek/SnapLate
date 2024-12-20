@@ -14,6 +14,7 @@ using Rect = System.Windows.Rect;
 using System.Windows.Threading;
 using Widgets.Common;
 using System.Reflection;
+using System;
 
 namespace SnapLate
 {
@@ -301,7 +302,7 @@ namespace SnapLate
             try
             {
                 var multiLang = lang.Split('+').Distinct().ToArray();
-
+                
                 foreach (var singleLang in multiLang)
                 {
                     var tessDataUrl = new Uri($"{tessaract_data_github_base_url}{singleLang}.traineddata");
@@ -353,7 +354,6 @@ namespace SnapLate
                 }
 
                 var translateApiUrl = new Uri($"{translate_api_url}?client=gtx&sl={sl}&tl={tl}&dt=t&dt=bd&dj=1&q={q}");
-                Debug.WriteLine(translateApiUrl.ToString());
 
                 using HttpClient client = new();
 
@@ -485,13 +485,11 @@ namespace SnapLate
 
                     var tesseractLang = LanguageMapping.LangToTessaract(lang);
 
-                    if (lang == "auto" && FromLang.SelectedValue != null && ToLang.SelectedValue != null)
+                    if (ToLang.SelectedValue != null)
                     {
-                        var lang1 = (string)FromLang.SelectedValue;
                         var lang2 = (string)ToLang.SelectedValue;
-                        var tesseractLang1 = LanguageMapping.LangToTessaract(lang1);
                         var tesseractLang2 = LanguageMapping.LangToTessaract(lang2);
-                        tesseractLang = tesseractLang1 + "+" + tesseractLang2;
+                        tesseractLang = tesseractLang + "+" + tesseractLang2;
                     }
 
                     var text = await PerformOCR(memoryImage, tesseractLang, tessaract_data_path);
