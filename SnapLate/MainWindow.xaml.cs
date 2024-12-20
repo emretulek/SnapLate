@@ -491,7 +491,7 @@ namespace SnapLate
                         var lang2 = (string)ToLang.SelectedValue;
                         var tesseractLang1 = LanguageMapping.LangToTessaract(lang1);
                         var tesseractLang2 = LanguageMapping.LangToTessaract(lang2);
-                        tesseractLang = tesseractLang2 + "+" + tesseractLang1;
+                        tesseractLang = tesseractLang1 + "+" + tesseractLang2;
                     }
 
                     var text = await PerformOCR(memoryImage, tesseractLang, tessaract_data_path);
