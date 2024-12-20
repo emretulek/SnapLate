@@ -1,0 +1,104 @@
+﻿<Window x:Class="SnapLate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SnapLate"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="#20000000"
+        SizeToContent="Height"
+        FontSize="{Binding Settings.FontSize}"
+        Title="Screen Reader" 
+        MinHeight="200" MaxHeight="600"
+        Height="200" Width="400">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Height="20" Cursor="SizeAll"/>
+            <DockPanel Grid.Row="1">
+                <Button x:Name="SSButton" Style="{StaticResource Button}" Width="24" Height="28" DockPanel.Dock="Right" Click="ScreenShot_Button_Click">
+                    <Grid>
+                        <Path Fill="{StaticResource TextBrush}" Data="M 1,5.5 V 3.7 A 2.7,2.7 0 0 1 3.7,1 h 1.8 a 0.9,0.9 0 0 1 0,1.8 H 3.7 A 0.9,0.9 0 0 0 2.8,3.7 V 5.5 A 0.9,0.9 0 0 1 1,5.5 Z M 1,16.3 A 2.7,2.7 0 0 0 3.7,19 h 1.8 a 0.9,0.9 0 0 0 0,-1.8 H 3.7 A 0.9,0.9 0 0 1 2.8,16.3 v -1.8 a 0.9,0.9 0 0 0 -1.8,0 z m 18,-1.8 a 0.9,0.9 0 0 0 -1.8,0 v 1.8 a 0.9,0.9 0 0 1 -0.9,0.9 h -1.8 a 0.9,0.9 0 0 0 0,1.8 h 1.8 A 2.7,2.7 0 0 0 19,16.3 Z M 19,3.7 A 2.7,2.7 0 0 0 16.3,1 h -1.8 a 0.9,0.9 0 0 0 0,1.8 h 1.8 a 0.9,0.9 0 0 1 0.9,0.9 v 1.8 a 0.9,0.9 0 0 0 1.8,0 z"/>
+                    </Grid>
+                </Button>
+                <Button Style="{StaticResource Button}" Width="24" Height="28" DockPanel.Dock="Right" Click="SwapLanguage_Click">
+                    <Grid Width="20">
+                        <Path Fill="{StaticResource TextBrush}" Data="M 5.5996094,0.279297 V 13.240234 H 2.359375 l 6.480469,6.480469 V 0.279297 Z"/>
+                        <Path Fill="{StaticResource TextBrush}" Data="M 11.160156,0.279297 v 19.441406 h 3.240235 V 6.7597657 h 3.240234 Z"/>
+                    </Grid>
+                </Button>
+                <ComboBox x:Name="FromLang" ItemsSource="{Binding SrcLang}" 
+                          SelectedValuePath="Key"
+                          TextSearch.TextPath="Value" 
+                          IsTextSearchEnabled="True" 
+                          VerticalContentAlignment="Center"
+                          SelectionChanged="Language_Changed"
+                          Style="{StaticResource ComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Value}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </DockPanel>
+
+            <TextBox x:Name="FromText" Grid.Row="2" Foreground="{StaticResource TextBrush}" Background="{StaticResource SecondaryDarkBrush}" BorderThickness="0" TextChanged="FromText_Changed" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Padding="5"/>
+            <Button Grid.Row="2" Style="{StaticResource Button}" Click="CopyFromText_Button_Click" Background="Transparent" BorderThickness="0" Padding="3" Margin="0 0 5 5" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <Grid>
+                    <Path Fill="#20FFFFFF" Data="M 6.59961,11.3974 c 0,-2.72621 0,-4.0893 0.84353,-4.93622 C 8.28667,5.61426 9.64432,5.61426 12.3596,5.61426 h 2.88 c 2.7153,0 4.0729,0 4.9165,0.84692 0.8435,0.84692 0.8435,2.21002 0.8435,4.93622 v 4.8193 c 0,2.7262 0,4.0893 -0.8435,4.9362 -0.8436,0.8469 -2.2012,0.8469 -4.9165,0.8469 h -2.88 c -2.71528,0 -4.07293,0 -4.91646,-0.8469 -0.84353,-0.8469 -0.84353,-2.21 -0.84353,-4.9362 Z"/>
+                    <Path Fill="#20999999" Data="M 4.17157,3.17157 C 3,4.34315 3,6.22876 3,10 v 2 c 0,3.7712 0,5.6569 1.17157,6.8284 C 4.78913,19.446 5.6051,19.738 6.79105,19.8761 6.59961,19.0353 6.59961,17.8796 6.59961,16.2167 v -4.8193 c 0,-2.7262 0,-4.0893 0.84353,-4.93622 C 8.28667,5.61426 9.64432,5.61426 12.3596,5.61426 h 2.88 c 1.6519,0 2.8013,0 3.6381,0.19068 C 18.7403,4.61146 18.4484,3.79154 17.8284,3.17157 16.6569,2 14.7712,2 11,2 7.22876,2 5.34315,2 4.17157,3.17157 Z"/>
+                </Grid>
+            </Button>
+
+            <GridSplitter Grid.Row="3" Background="{StaticResource PrimaryDarkBrush}" HorizontalAlignment="Stretch" Height="3"/>
+
+            <TextBox x:Name="ToText" Grid.Row="4" Foreground="{StaticResource TextBrush}" Background="{StaticResource SecondaryDarkBrush}" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Padding="5"/>
+            <Button Grid.Row="4" Style="{StaticResource Button}" Click="CopyToText_Button_Click" Background="Transparent" BorderThickness="0" Padding="3" Margin="0 0 5 5" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <Grid>
+                    <Path Fill="#20FFFFFF" Data="M 6.59961,11.3974 c 0,-2.72621 0,-4.0893 0.84353,-4.93622 C 8.28667,5.61426 9.64432,5.61426 12.3596,5.61426 h 2.88 c 2.7153,0 4.0729,0 4.9165,0.84692 0.8435,0.84692 0.8435,2.21002 0.8435,4.93622 v 4.8193 c 0,2.7262 0,4.0893 -0.8435,4.9362 -0.8436,0.8469 -2.2012,0.8469 -4.9165,0.8469 h -2.88 c -2.71528,0 -4.07293,0 -4.91646,-0.8469 -0.84353,-0.8469 -0.84353,-2.21 -0.84353,-4.9362 Z"/>
+                    <Path Fill="#20999999" Data="M 4.17157,3.17157 C 3,4.34315 3,6.22876 3,10 v 2 c 0,3.7712 0,5.6569 1.17157,6.8284 C 4.78913,19.446 5.6051,19.738 6.79105,19.8761 6.59961,19.0353 6.59961,17.8796 6.59961,16.2167 v -4.8193 c 0,-2.7262 0,-4.0893 0.84353,-4.93622 C 8.28667,5.61426 9.64432,5.61426 12.3596,5.61426 h 2.88 c 1.6519,0 2.8013,0 3.6381,0.19068 C 18.7403,4.61146 18.4484,3.79154 17.8284,3.17157 16.6569,2 14.7712,2 11,2 7.22876,2 5.34315,2 4.17157,3.17157 Z"/>
+                </Grid>
+            </Button>
+
+            <DockPanel Grid.Row="5">
+                <Button VerticalContentAlignment="Stretch" Content="✗" Style="{StaticResource Button}" Width="24" Height="28" DockPanel.Dock="Right" Click="Clear_Button_Click"/>
+                <ComboBox x:Name="ToLang" ItemsSource="{Binding TargetLang}" 
+                          SelectedValuePath="Key"
+                          TextSearch.TextPath="Value" 
+                          IsTextSearchEnabled="True" 
+                          VerticalContentAlignment="Center"
+                          Style="{StaticResource ComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Value}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </DockPanel>
+        </Grid>
+    </Border>
+</Window>

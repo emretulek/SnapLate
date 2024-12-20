@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Composition" Version="9.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+    <PackageReference Include="Tesseract" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Widgets.Common">
+      <HintPath>..\..\Widgets.Common\Widgets.Common\bin\Release\net8.0-windows\Widgets.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <MakeDir Directories="$(TargetDir)$(AssemblyName)" />
+    <MakeDir Directories="$(TargetDir)$(AssemblyName)\tesseract_data" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(TargetDir)$(AssemblyName)" />
+    <Copy SourceFiles="$(TargetDir)Tesseract.dll" DestinationFolder="$(TargetDir)$(AssemblyName)" />
+    <ItemGroup>
+      <LanguageMappingFiles Include="$(TargetDir)language_mapping\**\*" />
+      <TesseractX64Files Include="$(TargetDir)x64\**\*" />
+      <TesseractX86Files Include="$(TargetDir)x86\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(LanguageMappingFiles)" DestinationFolder="$(TargetDir)$(AssemblyName)\language_mapping" />
+    <Copy SourceFiles="@(TesseractX64Files)" DestinationFolder="$(TargetDir)$(AssemblyName)\x64" />
+    <Copy SourceFiles="@(TesseractX86Files)" DestinationFolder="$(TargetDir)$(AssemblyName)\x86" />
+  </Target>
+  
+  <ItemGroup>
+    <None Update="language_mapping\language_names.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="language_mapping\language_tesseract.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="language_mapping\tesseract_alternate.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
