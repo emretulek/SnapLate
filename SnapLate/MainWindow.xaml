@@ -10,7 +10,7 @@
         Background="#20000000"
         SizeToContent="Height"
         FontSize="{Binding Settings.FontSize}"
-        Title="Screen Reader" 
+        Title="SnapLate" 
         MinHeight="200" MaxHeight="600"
         Height="200" Width="400">
     <Window.Resources>

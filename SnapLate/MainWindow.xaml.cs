@@ -96,7 +96,7 @@ namespace SnapLate
         // Window to WdigetWindow
         public WidgetWindow WidgetWindow()
         {
-            return new WidgetWindow(this, WidgetDefaultStruct());
+            return new WidgetWindow(this);
         }
 
         // WidgetWindow default settings
@@ -362,7 +362,7 @@ namespace SnapLate
                 string stringResponse = await response.Content.ReadAsStringAsync();
 
                 var jsonResponse = JsonSerializer.Deserialize<JsonElement>(stringResponse);
-
+               
                 string translated = "";
                 string original = "";
 
@@ -516,16 +516,29 @@ namespace SnapLate
         // From lang and to lang are swapped
         private void SwapLanguage_Click(object? sender, EventArgs e)
         {
-            var fromLangValue = (string)FromLang.SelectedValue;
-            var toLangValue = (string)ToLang.SelectedValue;
-
-            if (fromLangValue != null && toLangValue != null)
+            try
             {
-                if (fromLangValue != "auto")
+                FromLang.SelectionChanged -= Language_Changed;
+                ToLang.SelectionChanged -= Language_Changed;
+
+                var fromLangValue = (string)FromLang.SelectedValue;
+                var toLangValue = (string)ToLang.SelectedValue;
+
+                if (fromLangValue != null && toLangValue != null)
                 {
-                    ToLang.SelectedValue = fromLangValue;
-                    FromLang.SelectedValue = toLangValue;
+                    if (fromLangValue != "auto")
+                    {
+                        FromLang.SelectedValue = toLangValue;
+                        ToLang.SelectedValue = fromLangValue;
+                    }
+
+                    Translate();
                 }
+            }
+            finally
+            {
+                FromLang.SelectionChanged += Language_Changed;
+                ToLang.SelectionChanged += Language_Changed;
             }
         }
 

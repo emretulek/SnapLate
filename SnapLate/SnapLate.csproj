@@ -14,12 +14,6 @@
     <PackageReference Include="Tesseract" Version="5.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Widgets.Common">
-      <HintPath>..\..\Widgets.Common\Widgets.Common\bin\Release\net8.0-windows\Widgets.Common.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <MakeDir Directories="$(TargetDir)$(AssemblyName)" />
     <MakeDir Directories="$(TargetDir)$(AssemblyName)\tesseract_data" />
@@ -34,6 +28,12 @@
     <Copy SourceFiles="@(TesseractX64Files)" DestinationFolder="$(TargetDir)$(AssemblyName)\x64" />
     <Copy SourceFiles="@(TesseractX86Files)" DestinationFolder="$(TargetDir)$(AssemblyName)\x86" />
   </Target>
+
+  <ItemGroup>
+    <Reference Include="Widgets.Common">
+      <HintPath>..\..\Widgets.Common\Widgets.Common\bin\Release\net8.0-windows\Widgets.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   
   <ItemGroup>
     <None Update="language_mapping\language_names.json">
